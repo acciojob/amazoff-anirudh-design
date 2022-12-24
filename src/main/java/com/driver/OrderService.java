@@ -31,7 +31,7 @@ public class OrderService {
         return orderRepository.getDeliveryPartnerFromDB(DeliveryPartnerId);
     }
 
-    public int getOrdersCountService(String DeliveryPartnerId){
+    public Integer getOrdersCountService(String DeliveryPartnerId){
         return orderRepository.getOrdersCountFromDB(DeliveryPartnerId);
     }
 
@@ -43,11 +43,11 @@ public class OrderService {
         return orderRepository.getAllOrdersFromDB();
     }
 
-    public int getCountAllUnassignedOrdersService(){
+    public Integer getCountAllUnassignedOrdersService(){
         return orderRepository.getCountAllUnassignedOrdersFromDB();
     }
 
-    public int getCountAllUndeliveredOrdersService(String deliveryTime, String DeliveryPartnerId){
+    public Integer getCountAllUndeliveredOrdersService(String deliveryTime, String DeliveryPartnerId){
         return orderRepository.getCountAllUndeliveredOrdersFromDB(deliveryTime, DeliveryPartnerId);
     }
 
@@ -59,7 +59,7 @@ public class OrderService {
         orderRepository.deleteDeliveryPartnerOrdersFromDB(DeliveryPartnerId);
     }
 
-    public void deleteAllDeliveryPartnerOrdersService(String orderId){
-        orderRepository.deleteAllDeliveryPartnerOrdersFromDB(orderId);
+    public void deleteOrderAndPartnerService(String orderId){
+        orderRepository.deleteOrderAndPartnerFromDB(orderId);
     }
 }

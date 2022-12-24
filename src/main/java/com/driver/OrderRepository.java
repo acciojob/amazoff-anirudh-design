@@ -10,7 +10,6 @@ import java.util.Map;
 @Repository
 public class OrderRepository {
     Map<DeliveryPartner, List<Order>> hm=new HashMap<>();
-
     public void addOrderToDB(Order Order){
         List<Order> Orders;
         if(hm.size()==0){
@@ -83,16 +82,14 @@ public class OrderRepository {
         return new DeliveryPartner(null);
     }
 
-    public int getOrdersCountFromDB(String DeliveryPartnerId){
-        List<String> res=new ArrayList<>();
+    public Integer getOrdersCountFromDB(String DeliveryPartnerId){
+        Integer x=null;
         for(DeliveryPartner d:hm.keySet()){
             if(d!=null && d.getId().equals(DeliveryPartnerId)){
-                List<Order> Orders=hm.get(d);
-                for(Order m:Orders) res.add(m.getId());
-                break;
+                 x=Integer.valueOf(d.getNumberOfOrders());
             }
         }
-        return res.size();
+        return x;
     }
 
     public List<String> getOrdersListFromDB(String DeliveryPartnerId){
@@ -115,11 +112,10 @@ public class OrderRepository {
         return allOrders;
     }
 
-    public int getCountAllUnassignedOrdersFromDB(){
-        return hm.get(null).size();
-    }
+    public Integer getCountAllUnassignedOrdersFromDB(){ return Integer.valueOf(hm.get(null).size());}
 
-    public int getCountAllUndeliveredOrdersFromDB(String deliveryTime, String DeliveryPartnerId){
+    public Integer getCountAllUndeliveredOrdersFromDB(String deliveryTime, String DeliveryPartnerId){
+        Integer x=null;
         int time=Integer.parseInt(deliveryTime.substring(0,2))*60+Integer.parseInt(deliveryTime.substring(3));
         int c=0;
         for(DeliveryPartner d:hm.keySet()){
@@ -129,7 +125,8 @@ public class OrderRepository {
                 break;
             }
         }
-        return c;
+        x=Integer.valueOf(c);
+        return x;
     }
 
     public String getLastDeliveryTime(String DeliveryPartnerId){
@@ -161,17 +158,21 @@ public class OrderRepository {
         }
     }
 
-    public void deleteAllDeliveryPartnerOrdersFromDB(String orderId){
+    public void deleteOrderAndPartnerFromDB(String orderId){
         if(hm.size()==0) return;
         for(DeliveryPartner d:hm.keySet()){
             List<Order> Orders=hm.get(d);
             List<Order> dummy=new ArrayList<>(Orders);
+            boolean f=false;
             for(Order m:dummy){
-                if(m.getId().equals(orderId)) Orders.remove(m);
+                if(m.getId().equals(orderId)){
+                    f=true;
+                    Orders.remove(m);
+                    d.setNumberOfOrders(d.getNumberOfOrders()-1);
+                    hm.put(d, Orders);
+                }
             }
-            d.setNumberOfOrders(d.getNumberOfOrders()-1);
-            hm.put(d, Orders);
-            break;
+            if(f) break;
         }
     }
 }
