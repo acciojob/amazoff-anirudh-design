@@ -130,14 +130,18 @@ public class OrderRepository {
     }
 
     public String getLastDeliveryTime(String DeliveryPartnerId){
+        boolean flag=false;
         int max=0;
         for(DeliveryPartner d:hm.keySet()){
             if(d!=null && d.getId().equals(DeliveryPartnerId)){
+                flag=true;
                 List<Order> Orders=hm.get(d);
+                if(Orders.size()==0) return "";
                 for(Order m:Orders) if(m.getDeliveryTime()>max) max=m.getDeliveryTime();
                 break;
             }
         }
+        if(flag==false) return "";
         int h=max/60, m=max%60;
         String hr=(h<10)?"0"+h:String.valueOf(h);
         String min=(m<10)?"0"+m:String.valueOf(m);
