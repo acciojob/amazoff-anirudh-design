@@ -82,14 +82,13 @@ public class OrderRepository {
         return new DeliveryPartner(null);
     }
 
-    public Integer getOrdersCountFromDB(String DeliveryPartnerId){
-        Integer x=null;
+    public int getOrdersCountFromDB(String DeliveryPartnerId){
         for(DeliveryPartner d:hm.keySet()){
             if(d!=null && d.getId().equals(DeliveryPartnerId)){
-                 x=Integer.valueOf(d.getNumberOfOrders());
+                 return d.getNumberOfOrders();
             }
         }
-        return x;
+        return 0;
     }
 
     public List<String> getOrdersListFromDB(String DeliveryPartnerId){

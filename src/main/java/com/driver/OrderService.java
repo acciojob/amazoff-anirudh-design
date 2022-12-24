@@ -31,7 +31,7 @@ public class OrderService {
         return orderRepository.getDeliveryPartnerFromDB(DeliveryPartnerId);
     }
 
-    public Integer getOrdersCountService(String DeliveryPartnerId){
+    public int getOrdersCountService(String DeliveryPartnerId){
         return orderRepository.getOrdersCountFromDB(DeliveryPartnerId);
     }
 
